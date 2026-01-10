@@ -1287,9 +1287,9 @@ namespace visage {
       }
     }
     if (msg == WM_QUERYENDSESSION)
-      return window->closeRequested();
+      return window->handleCloseRequested();
     if (msg == WM_CLOSE) {
-      if (!window->closeRequested())
+      if (!window->handleCloseRequested())
         return 0;
     }
     return windowProcedure(hwnd, msg, w_param, l_param);
@@ -1556,7 +1556,7 @@ namespace visage {
       v_blank_thread_ = std::make_unique<VBlankThread>(this);
       v_blank_thread_->start();
     }
-    notifyShow();
+    handleWindowShown();
   }
 
   void WindowWin32::show() {
@@ -1566,7 +1566,7 @@ namespace visage {
 
   void WindowWin32::hide() {
     ShowWindow(window_handle_, SW_HIDE);
-    notifyHide();
+    handleWindowHidden();
   }
 
   void WindowWin32::close() {
